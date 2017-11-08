@@ -10,7 +10,7 @@
     2. Merge Sort<br>
     
 ### Progress-2
-  	2. Quick Sort<br>
+  	3. Quick Sort<br>
     
 ### Team :<br>
   Arvind Ramachandran 15CO111<br>
