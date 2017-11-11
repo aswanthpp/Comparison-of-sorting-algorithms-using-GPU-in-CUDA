@@ -6,11 +6,11 @@
 ## A Project to implement well known sorting algorithm on GPU using CUDA 
  
 ### Progress-1<br>
-    1. Radix Sort<br>
-    2. Merge Sort<br>
+    1. Radix Sort
+    2. Merge Sort
     
 ### Progress-2
-  	3. Quick Sort<br>
+  	3. Quick Sort
     
 ### Team :<br>
   Arvind Ramachandran 15CO111<br>
