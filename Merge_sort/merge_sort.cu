@@ -15,7 +15,8 @@ __device__ void gpu_bottomUpMerge(float*, float*, long, long, long);
 #define size 10000
 
 bool verbose;
-int main(int argc, char** argv) {
+int main(int argc, char** argv) 
+{
     wbArg_t args;
     args = wbArg_read(argc, argv);
     clock_t start,end;
@@ -34,52 +35,6 @@ int main(int argc, char** argv) {
     blocksPerGrid.y = 1;
     blocksPerGrid.z = 1;
 
-    /*for (int i = 1; i < argc; i++) {
-        if (argv[i][0] == '-' && argv[i][1] && !argv[i][2]) {
-            char arg = argv[i][1];
-            unsigned int* toSet = 0;
-            switch(arg) {
-                case 'x':
-                    toSet = &threadsPerBlock.x;
-                    break;
-                case 'y':
-                    toSet = &threadsPerBlock.y;
-                    break;
-                case 'z':
-                    toSet = &threadsPerBlock.z;
-                    break;
-                case 'X':
-                    toSet = &blocksPerGrid.x;
-                    break;
-                case 'Y':
-                    toSet = &blocksPerGrid.y;
-                    break;
-                case 'Z':
-                    toSet = &blocksPerGrid.z;
-                    break;
-                case 'v':
-                    verbose = true;
-                    break;
-                default:
-                    cout << "unknown argument: " << arg << '\n';
-                    return -1;
-            }
-
-            if (toSet) {
-                i++;
-                *toSet = (unsigned int) strtol(argv[i], 0, 10);
-            }
-        }
-        else {
-            if (argv[i][0] == '?' && !argv[i][1])
-                cout << "help:\n";
-            else
-                cout << "invalid argument: " << argv[i] << '\n';
-            return -1;
-        }
-    }
-    */
-
     if (verbose) {
         cout << "\nthreadsPerBlock:"
                   << "\n  x: " << threadsPerBlock.x
@@ -96,33 +51,23 @@ int main(int argc, char** argv) {
                   
                
     }
-int inputLength;
- float  *data;
-data = (float *)wbImport(wbArg_getInputFile(args, 0), &inputLength);
-   
-   
-    
-    
+    int inputLength;
+     float  *data;
+    data = (float *)wbImport(wbArg_getInputFile(args, 0), &inputLength);
 
     mergesort(data, threadsPerBlock, blocksPerGrid);
-    
-    
    
     wbSolution(args, data, inputLength);
 
-    cout<<"Sorting "<<size<<" Numbers : ";
-    /*for (int i = 0; i < size; i++) {
-        cout << data[i] << " ";
-    } 
-    cout<<"\n";
-*/
+    cout<<"\nInput Length : "<<size<<endl;
+    
     end = clock();
     cput = ((double)(end-start))/CLOCKS_PER_SEC;
-    cout<<"Running time = " << cput << endl;
+    cout<<"\nRunning time = " << cput <<" s"<< endl;
 }
 
-void mergesort(float * data, dim3 threadsPerBlock, dim3 blocksPerGrid) {
-
+void mergesort(float * data, dim3 threadsPerBlock, dim3 blocksPerGrid) 
+{
     float* D_data;
     float* D_swp;
     dim3* D_threads;
@@ -166,7 +111,8 @@ void mergesort(float * data, dim3 threadsPerBlock, dim3 blocksPerGrid) {
     checkCudaErrors(cudaFree(B));
 }
 
-__device__ unsigned int getIdx(dim3* threads, dim3* blocks) {
+__device__ unsigned int getIdx(dim3* threads, dim3* blocks) 
+{
     int x;
     return threadIdx.x +
            threadIdx.y * (x  = threads->x) +
@@ -177,13 +123,15 @@ __device__ unsigned int getIdx(dim3* threads, dim3* blocks) {
 }
 
 
-__global__ void gpu_mergesort(float* source, float* dest, long width, long slices, dim3* threads, dim3* blocks) {
+__global__ void gpu_mergesort(float* source, float* dest, long width, long slices, dim3* threads, dim3* blocks) 
+{
     unsigned int idx = getIdx(threads, blocks);
     long start = width*idx*slices, 
          middle, 
          end;
 
-    for (long slice = 0; slice < slices; slice++) {
+    for (long slice = 0; slice < slices; slice++) 
+    {
         if (start >= size)
             break;
 
@@ -194,14 +142,18 @@ __global__ void gpu_mergesort(float* source, float* dest, long width, long slice
     }
 }
 
-__device__ void gpu_bottomUpMerge(float* source, float* dest, long start, long middle, long end) {
+__device__ void gpu_bottomUpMerge(float* source, float* dest, long start, long middle, long end) 
+{
     long i = start;
     long j = middle;
     for (long k = start; k < end; k++) {
-        if (i < middle && (j >= end || source[i] < source[j])) {
+        if (i < middle && (j >= end || source[i] < source[j])) 
+        {
             dest[k] = source[i];
             i++;
-        } else {
+        } 
+        else 
+        {
             dest[k] = source[j];
             j++;
         }

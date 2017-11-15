@@ -139,7 +139,7 @@ int main(int argc, char **argv) {
     }
     if(flag==0){
     printf("\nSolution is Correct !!!\n");
-    printf("\nTime :  %f ms \n",(stop_s-start_s)/double(CLOCKS_PER_SEC)*1000);
+    printf("\nTime :  %f s \n",(stop_s-start_s)/double(CLOCKS_PER_SEC));
     }
     
     fclose(op);

@@ -257,7 +257,7 @@ int main(int argc, char **argv) {
   //  wbTime_stop(GPU, "Freeing GPU Memory");
   printf("\n");
       wbSolution(args, h_outVals, numElements);
-      printf("\nTime :  %f ms \n",(stop_s-start_s)/double(CLOCKS_PER_SEC)*1000);
+      printf("\nTime :  %f s \n",(stop_s-start_s)/double(CLOCKS_PER_SEC));
 printf("\n");
     free(h_inVals);
     free(h_inPos);

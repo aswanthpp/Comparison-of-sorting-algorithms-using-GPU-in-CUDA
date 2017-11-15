@@ -1,52 +1,51 @@
+/* This program sorts an input array by bucket sort.
+ * Each bucket in turn is sorted using Parallel Bubble sort.
+ * The array consists of float numbers, all less than 1. To find the destination bucket,
+ * the float number is multiplied by 10 to get the first digit, which determines the bucket number.
+ * For eg., 0.1234 -> (int)(0.1234*10) = 1. Thus the bucket number for 0.1234 is 1.
+ * Thus the total number of buckets will be 10. (0-9)
+ * Implemented in CUDA. 
+ *
+ *
+ * 
+ * code by Anand Goyal. Dated: 12/13/2014
+*/
+
 #include<stdio.h>
 #include<cuda.h>
 #include<time.h>
 #include<sys/time.h>
 #include"wb.h"
+#define range 10
+#define SIZE 50000
+#define bucketLength (SIZE/range * 2)
 
-#define SIZE 10240
-#define bucketLength 1024
-
-__global__ void bucketSortKernel(int *inData, long size, int *outData,int *spliter,int partition)
+__global__ void bucketSortKernel(float *inData, long size, float *outData)
 {
-	__shared__ int localBucket[bucketLength];
+	__shared__ float localBucket[bucketLength];
 	__shared__ int localCount; /* Counter to track index with a bucket */
-       __shared__ int split[110];
+
 	int tid = threadIdx.x; int blockId = blockIdx.x;
 	int offset = blockDim.x;
-	int  index, phase,i;
+	int bucket, index, phase;
 	float temp;
 	
-	if(tid == 0){
+	if(tid == 0)
 		localCount = 0;
-for(i=0;i<109;i++)
-               split[i]=spliter[i] ;
-}
 
 	__syncthreads();
 
-       /* for(i=0;i<109;i++)
-               split[i]=spliter[i] ;
-*/	/* Block traverses through the array and buckets the element accordingly */
-	if(tid < size) {
-
-		if( blockId != partition-1) {
-                     if(inData[tid]>=split[blockId] && inData[tid]<=split[blockId+1])
+	/* Block traverses through the array and buckets the element accordingly */
+	while(tid < size) {
+		bucket = inData[tid] * 10;
+		if(bucket == blockId) {
 			index = atomicAdd(&localCount, 1);
 			localBucket[index] = inData[tid]; 
 		}
-                else
-                  { index=atomicAdd(&localCount,1);
-                     localBucket[index]=inData[tid];
-               
-                     }
-				
+		tid += offset;		
 	}
 
 	__syncthreads();
-
-
-
 	
 	tid = threadIdx.x;
 	//Sorting the bucket using Parallel Bubble Sort
@@ -72,6 +71,7 @@ for(i=0;i<109;i++)
 			}
 		}
 	}
+	
 	tid = threadIdx.x;
 	while(tid < bucketLength) {
 		outData[(blockIdx.x * bucketLength) + tid] = localBucket[tid];
@@ -79,157 +79,63 @@ for(i=0;i<109;i++)
 	}
 }
 
-
-void quicksort(int array[], int firstIndex, int lastIndex)
-{
-    //declaring index variables
-    int pivotIndex, temp, index1, index2;
-
-    if(firstIndex < lastIndex)
-    {
-        //assigning first element index as pivot element
-        pivotIndex = firstIndex;
-        index1 = firstIndex;
-        index2 = lastIndex;
-
-        //Sorting in Ascending order with quick sort
-        while(index1 < index2)
-        {
-            while(array[index1] <= array[pivotIndex] && index1 < lastIndex)
-            {
-                index1++;
-            }
-            while(array[index2]>array[pivotIndex])
-            {
-                index2--;
-            }
-
-            if(index1<index2)
-            {
-                //Swapping opertation
-                temp = array[index1];
-                array[index1] = array[index2];
-                array[index2] = temp;
-            }
-        }
-
-        //At the end of first iteration, swap pivot element with index2 element
-        temp = array[pivotIndex];
-        array[pivotIndex] = array[index2];
-        array[index2] = temp;
-
-        //Recursive call for quick sort, with partiontioning
-        quicksort(array, firstIndex, index2-1);
-        quicksort(array, index2+1, lastIndex);
-    }
-}
-
-
-
 int main(int argc, char **argv) {
 
-       //wbArg_t args;
-       //args = wbArg_read(argc, argv);
-       int numElements;
-       
-	int *input, *output,*splitter;
-	int *d_input, *d_output,*d_splitter;
-	int i,p;
+  wbArg_t args;
+   args = wbArg_read(argc, argv);
+	float *input, *output;
+	float *d_input, *d_output;
+	float elapsedTime;
+	cudaEvent_t start, stop;
 	
-	
-	
+	cudaEventCreate(&start, 0);
+	cudaEventCreate(&stop, 0);
 
 	/* Each block sorts one bucket */
-	p=(SIZE/1024);
-         
-        splitter=(int*)malloc(sizeof(int)*p+5) ;
-	input = (int *)malloc(sizeof(int) * SIZE);
-	output = (int *)malloc(sizeof(int) * bucketLength * p);
+	const int numOfThreads = 4;
+	const int numOfBlocks = range;
+
+	input = (float *)malloc(sizeof(float) * SIZE);
+	output = (float *)malloc(sizeof(float) * bucketLength * range);
+	cudaMalloc((void**)&d_input, sizeof(float) * SIZE);
+	cudaMalloc((void **)&d_output, sizeof(float) * bucketLength * range);
+	cudaMemset(d_output, 0, sizeof(float) * bucketLength * range);
 	
-	FILE *inp1 = fopen(argv[1], "r");
-    	fscanf(inp1, "%d", &numElements);
+	
+	 int numElements; 
     
-    	printf("\n\n Input length = %d\n",numElements);
-    	 for(int i = 0; i < numElements; ++i){
-		fscanf(inp1, "%d", &input[i]);
+  
+    
+    
+    	input = (float *) wbImport(wbArg_getInputFile(args, 0), &numElements);
+   	printf("\nInput Length : %d\n",numElements);
+
+	cudaEventRecord(start, 0);
+
+	cudaMemcpy(d_input, input, sizeof(float) * SIZE, cudaMemcpyHostToDevice);
+	bucketSortKernel<<<numOfBlocks, numOfThreads>>>(d_input, SIZE, d_output);
+	cudaMemcpy(output, d_output, sizeof(float) * bucketLength * range, cudaMemcpyDeviceToHost);
 	
-    	}
-    	
-    	printf("\nInput:\n");
-    	for(int i = 0; i < numElements; ++i){
-    	printf("%d ",input[i]);
-    	}
-   
-    	
-	cudaMalloc((void**)&d_input, sizeof(int) * SIZE);
-	cudaMalloc((void **)&d_output, sizeof(int) * bucketLength * p);
-         cudaMalloc((void**)&d_splitter,sizeof(int)*p+10);
-	cudaMemset(d_output, 0, sizeof(int) * bucketLength * p);
-
+	cudaEventRecord(stop, 0);
+	cudaEventSynchronize(stop);
+	cudaEventElapsedTime(&elapsedTime, start, stop);
 	
-
-  	splitter[0]=0;      
-  	for(i=1;i<p;i++)
-     		splitter[i]=input[rand()%SIZE];
-
-		splitter[p]=SIZE;
-		 quicksort(splitter,0,p);
-
-	// Printing the input array
-/*	for(i = 0; i <= p; i++)
-		printf("%d ", splitter[i]);
-*///	printf("***********************\n");
-
-
-	
-        int numthreads=1024;  
-	cudaMemcpy(d_input, input, sizeof(int) * SIZE, cudaMemcpyHostToDevice);
-        cudaMemcpy(d_splitter, splitter, sizeof(int) * p, cudaMemcpyHostToDevice);
- 	
- 	int start_s=clock();
-	bucketSortKernel<<<p,numthreads >>>(d_input, SIZE, d_output,d_splitter,p);	
-	cudaMemcpy(output, d_output, sizeof(int) * bucketLength * p, cudaMemcpyDeviceToHost);
-	int stop_s=clock();
-	//cudaEventElapsedTime(&elapsedTime, start, stop);
-//   cudaMemcpy(output, d_output, sizeof(int) * bucketLength * p, cudaMemcpyDeviceToHost);
-
-
-	//Printing the sorted array
-	for(i = 0; i < p; i++) {
-		for(int j = 0; j < bucketLength; j++)
-			if(output[i*bucketLength + j] != 0)
-				printf("%0.4f ", output[i*bucketLength + j]);
+	/*int flag=0;
+	for(int i=0;i<numElements-1;i++){
+		if(output[i]>output[i+1]){ 
+		//and (output[i] !=0 or output[i+1]!=0)){
+			printf("\nSolution is incorrect \n");
+			flag=1;
+			//printf("\n %d value %f next %f ---\n",i,output[i],output[i+1]);
+			break;
+		}
 	}
-
-	printf("\n");
-
-
-	//wbSolution(args, output, numElements);
-	printf("\nHello");
+	if(flag==0){
+		printf("\nSolution is Correct !!!\n");
 	
-	FILE *op = fopen(argv[2], "r");
-    fscanf(op, "%d", &numElements);
-    int *arr;
-    output=new int[numElements];
-    for(int i = 0; i < numElements; ++i){
-	fscanf(op, "%d", &arr[i]);
-    }
-    int flag=0;
-    printf("\n");
-    for(int i=0;i<numElements;i++){
-    	if(arr[i]!=output[i]){
-    		printf("Solution wrong Expecting : %d but got : %d\n",arr[i],output[i]);
-    		flag=1;
-    	}
-    }
-    if(flag==0){
-    printf("\nSolution is Correct !!!\n");
-    printf("Time :  %f ms \n",(stop_s-start_s)/double(CLOCKS_PER_SEC)*1000);
-    }
-    
-    fclose(op);
-    fclose(inp1);
-
+ 	}
+ 	*/	
+ 	printf("\nTime :  %3.1f ms \n", elapsedTime);
 	cudaFree(d_input);
 	cudaFree(d_output);
 	free(input);
