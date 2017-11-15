@@ -1,11 +1,8 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define TEST_SIZE 50000 
-#define RAND_RANGE 5000
-#define BLOCK_WIDTH 32 //16 //4 // 32
-#define CEILING_DIVIDE(X, Y) (1 + (((X) - 1) / (Y)))
-
+#define TEST_SIZE  10240
+#define RAND_RANGE 10000
 
 static void write_data(char *file_name,unsigned int *data,unsigned int num) {
   FILE *handle = fopen(file_name, "w");

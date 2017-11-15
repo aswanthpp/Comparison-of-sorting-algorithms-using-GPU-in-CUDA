@@ -1,7 +1,7 @@
 #include<bits/stdc++.h>
 using namespace std;
 
-#define TEST_SIZE 5000 
+#define TEST_SIZE  50000
 #define RAND_RANGE 10000
 
 static void write_data(char *file_name,unsigned int *data,unsigned int num) {

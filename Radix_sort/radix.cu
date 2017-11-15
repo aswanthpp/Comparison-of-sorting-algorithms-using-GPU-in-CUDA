@@ -5,7 +5,7 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-#define TEST_SIZE 1000 
+#define TEST_SIZE 50000 
 #define RAND_RANGE 5000
 #define BLOCK_WIDTH 32 
 #define CEILING_DIVIDE(X, Y) (1 + (((X) - 1) / (Y)))
@@ -215,47 +215,50 @@ int main(int argc, char **argv) {
     for(int i=0; i<TEST_SIZE; i++){ 
     	h_inPos[i] = i; 
     }
- wbTime_stop(Generic, "Importing data and creating memory on host");
+ //wbTime_stop(Generic, "Importing data and creating memory on host");
 
  
- wbLog(TRACE, "The number of input elements in the input is ", numElements);
+   printf("\nInput Length :%d\n",numElements);
 
     unsigned int *d_inputVals;
     unsigned int *d_inputPos;
     unsigned int *d_outputVals;
     unsigned int *d_outputPos;
     
-    wbTime_start(GPU, "Allocating GPU memory.");
+   // wbTime_start(GPU, "Allocating GPU memory.");
     cudaMalloc(&d_inputVals, memsize);
     cudaMalloc(&d_inputPos, memsize);
     cudaMalloc(&d_outputVals, memsize);
     cudaMalloc(&d_outputPos, memsize);
     
-    wbTime_stop(GPU, "Allocating GPU memory.");
+   // wbTime_stop(GPU, "Allocating GPU memory.");
     
-     wbTime_start(GPU, "Copying input memory to the GPU.");
+   //  wbTime_start(GPU, "Copying input memory to the GPU.");
     cudaMemcpy(d_inputVals, h_inVals, memsize, cudaMemcpyHostToDevice);
     cudaMemcpy(d_inputPos, h_inPos, memsize, cudaMemcpyHostToDevice);
-    wbTime_stop(GPU, "Copying input memory to the GPU.");
+  //  wbTime_stop(GPU, "Copying input memory to the GPU.");
     
-    wbTime_start(Compute, "Performing CUDA computation");
-
+  //  wbTime_start(Compute, "Performing CUDA computation");
+	int start_s=clock();
 	radix(d_inputVals, d_inputPos, d_outputVals, d_outputPos, TEST_SIZE);
+	int stop_s=clock();
 	
-	 wbTime_stop(Compute, "Performing CUDA computation");
+	// wbTime_stop(Compute, "Performing CUDA computation");
 
-      wbTime_start(Copy, "Copying output memory to the CPU");
+  //    wbTime_start(Copy, "Copying output memory to the CPU");
  	cudaMemcpy(h_outVals, d_outputVals, memsize, cudaMemcpyDeviceToHost);
     	cudaMemcpy(h_outPos, d_outputPos, memsize, cudaMemcpyDeviceToHost);
-    	wbTime_stop(Copy, "Copying output memory to the CPU");
-    wbTime_start(GPU, "Freeing GPU Memory");
+    //	wbTime_stop(Copy, "Copying output memory to the CPU");
+  //  wbTime_start(GPU, "Freeing GPU Memory");
     cudaFree(d_inputVals);
     cudaFree(d_inputPos);
     cudaFree(d_outputVals);
     cudaFree(d_outputPos);
-    wbTime_stop(GPU, "Freeing GPU Memory");
-    wbSolution(args, h_outVals, numElements);
-
+  //  wbTime_stop(GPU, "Freeing GPU Memory");
+  printf("\n");
+      wbSolution(args, h_outVals, numElements);
+      printf("\nTime :  %f ms \n",(stop_s-start_s)/double(CLOCKS_PER_SEC)*1000);
+printf("\n");
     free(h_inVals);
     free(h_inPos);
     free(h_outVals);
