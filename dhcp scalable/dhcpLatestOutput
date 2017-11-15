@@ -1,0 +1,208 @@
+Create nodes.
+Create channels.
+Setup the IP addresses and create DHCP applications.
+DhcpServer:DhcpServer(0x1ee7800)
+DhcpRelay:DhcpRelay(0x1ee7f00)
+DhcpServer:AddStaticDhcpEntry(0x1ee7800, 02-06-00:00:00:00:00:03, 172.30.1.14)
+DhcpClient:DhcpClient()
+DhcpClient:DhcpClient()
+DhcpClient:DhcpClient()
+Run Simulation.
+DhcpRelay:StartApplication(0x1ee7f00)
+DhcpServer:StartApplication(0x1ee7800)
+Adding 172.30.1.10 to the pool
+Adding 172.30.1.11 to the pool
+Adding 172.30.1.13 to the pool
+Adding 172.30.1.14 to the pool
+Adding 172.30.1.15 to the pool
+DhcpClient:StartApplication(0x1ee9710)
+My address is 02-06-00:00:00:00:00:01
+My m_chaddr is 00-10-00:00:00:00:00:01:00:00:00:00:00:00:00:00:00:00
+DhcpClient:Boot(0x1ee9710)
+DHCP DISCOVER sent
+DhcpClient:StartApplication(0x1eeab20)
+My address is 02-06-00:00:00:00:00:02
+My m_chaddr is 00-10-00:00:00:00:00:02:00:00:00:00:00:00:00:00:00:00
+DhcpClient:Boot(0x1eeab20)
+DHCP DISCOVER sent
+DhcpClient:StartApplication(0x1eebf80)
+My address is 02-06-00:00:00:00:00:03
+My m_chaddr is 00-10-00:00:00:00:00:03:00:00:00:00:00:00:00:00:00:00
+DhcpClient:Boot(0x1eebf80)
+DHCP DISCOVER sent
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+DHCP OFFER Offered Address: 172.30.1.10
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+DHCP OFFER Offered Address: 172.30.1.14
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+DHCP OFFER Offered Address: 172.30.1.11
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:OfferHandler(0x1eeab20, (type=))
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpClient:Boot(0x1ee9710)
+DHCP DISCOVER sent
+DhcpClient:Boot(0x1eebf80)
+DHCP DISCOVER sent
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+This client is sending a DISCOVER but it has still a lease active - perhaps it didn't shut down gracefully: 00-10-00:00:00:00:00:01:00:00:00:00:00:00:00:00:00:00
+DHCP OFFER Offered Address: 172.30.1.10
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+This client is sending a DISCOVER but it has still a lease active - perhaps it didn't shut down gracefully: 00-10-00:00:00:00:00:03:00:00:00:00:00:00:00:00:00:00
+DHCP OFFER Offered Address: 172.30.1.14
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpClient:Select(0x1eeab20)
+DhcpClient:Request(0x1eeab20)
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DhcpRelay:SendReq(0x1ee7f00)
+DHCP REQUEST sent from Relay agent to Client
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpClient:Boot(0x1ee9710)
+DHCP DISCOVER sent
+DhcpClient:Boot(0x1eebf80)
+DHCP DISCOVER sent
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+This client is sending a DISCOVER but it has still a lease active - perhaps it didn't shut down gracefully: 00-10-00:00:00:00:00:01:00:00:00:00:00:00:00:00:00:00
+DHCP OFFER Offered Address: 172.30.1.10
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+This client is sending a DISCOVER but it has still a lease active - perhaps it didn't shut down gracefully: 00-10-00:00:00:00:00:03:00:00:00:00:00:00:00:00:00:00
+DHCP OFFER Offered Address: 172.30.1.14
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpClient:OfferHandler(0x1eebf80, (type=))
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpClient:Boot(0x1ee9710)
+DHCP DISCOVER sent
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+This client is sending a DISCOVER but it has still a lease active - perhaps it didn't shut down gracefully: 00-10-00:00:00:00:00:01:00:00:00:00:00:00:00:00:00:00
+DHCP OFFER Offered Address: 172.30.1.10
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpClient:Select(0x1eebf80)
+DhcpClient:Request(0x1eebf80)
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DhcpRelay:SendReq(0x1ee7f00)
+DHCP REQUEST sent from Relay agent to Client
+DhcpClient:Select(0x1eeab20)
+DhcpClient:Boot(0x1eeab20)
+DHCP DISCOVER sent
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpRelay:NetHandlerServer(0x1ee7f00, 0x1eef280)
+DHCP DISCOVER send to server
+DhcpServer:NetHandler(0x1ee7800, 0x1eef980)
+DhcpServer:SendOffer(0x1ee7800, 0x1edb8a0, (type=), 03-07-ac:1e:01:10:44:00:00)
+DHCP DISCOVER from: 172.30.1.16 source port: 68
+This client is sending a DISCOVER but it has still a lease active - perhaps it didn't shut down gracefully: 00-10-00:00:00:00:00:02:00:00:00:00:00:00:00:00:00:00
+DHCP OFFER Offered Address: 172.30.1.11
+DhcpRelay:NetHandlerClient(0x1ee7f00, 0x1eef600)
+DhcpRelay:SendOffer(0x1ee7f00, (type=))
+DHCP OFFER Sent to Client
+DhcpClient:NetHandler(0x1ee9710, 0x1eefd00)
+DhcpClient:NetHandler(0x1eeab20, 0x1ef0080)
+DhcpClient:NetHandler(0x1eebf80, 0x1ef0d50)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpServer:TimerHandler(0x1ee7800)
+DhcpClient:StopApplication(0x1ee9710)
+DhcpClient:StopApplication(0x1eeab20)
+DhcpClient:StopApplication(0x1eebf80)
+DhcpRelay:StopApplication(0x1ee7f00)
+DhcpServer:StopApplication(0x1ee7800)
+DhcpClient:DoDispose(0x1ee9710)
+DhcpClient:DoDispose(0x1eeab20)
+DhcpClient:DoDispose(0x1eebf80)
+DhcpRelay:DoDispose(0x1ee7f00)
+DhcpServer:DoDispose(0x1ee7800)
+Done.
+DhcpClient:~DhcpClient()
+DhcpClient:~DhcpClient()
+DhcpClient:~DhcpClient()
+DhcpRelay:~DhcpRelay(0x1ee7f00)
+DhcpServer:~DhcpServer(0x1ee7800)
