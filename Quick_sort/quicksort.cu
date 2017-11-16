@@ -65,7 +65,6 @@ void quickSortIterative (int arr[], int l, int h)
 
     cudaMalloc(&d_l, (h-l+1)*sizeof(int));
     cudaMemcpy(d_l, lstack,(h-l+1)*sizeof(int),cudaMemcpyHostToDevice);
-
     cudaMalloc(&d_h, (h-l+1)*sizeof(int));
     cudaMemcpy(d_h, hstack,(h-l+1)*sizeof(int),cudaMemcpyHostToDevice);
     int n_t = 1;

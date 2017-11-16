@@ -12,7 +12,7 @@
 ### Progress-2
   	3. Quick  Sort
   	4. Sample Sort
-    
+    5. Bitonic Sort
 ### Team :<br>
   Arvind Ramachandran 15CO111<br>
   Aswanth P P 15CO112<br>
