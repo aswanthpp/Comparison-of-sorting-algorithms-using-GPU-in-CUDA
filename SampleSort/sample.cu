@@ -1,15 +1,3 @@
-/* This program sorts an input array by bucket sort.
- * Each bucket in turn is sorted using Parallel Bubble sort.
- * The array consists of float numbers, all less than 1. To find the destination bucket,
- * the float number is multiplied by 10 to get the first digit, which determines the bucket number.
- * For eg., 0.1234 -> (int)(0.1234*10) = 1. Thus the bucket number for 0.1234 is 1.
- * Thus the total number of buckets will be 10. (0-9)
- * Implemented in CUDA. 
- *
- *
- * 
- * code by Anand Goyal. Dated: 12/13/2014
-*/
 
 #include<stdio.h>
 #include<cuda.h>
