@@ -66,6 +66,8 @@
 \documentclass[conference]{IEEEtran}
 \usepackage{blindtext}
 \usepackage{graphicx}
+%\usepackage{lmodern}
+\usepackage[T1]{fontenc}
 
 % Some very useful LaTeX packages include:
 % (uncomment the ones you want to load)
@@ -770,7 +772,7 @@ chunks that fit into shared memory, which then can be
 sorted without expensive accesses to the global memory.
 Initially we employed a sample sort based algorithm for
 this purpose. But we found that it performed slightly worse
-than our quick sort adaptation by Cederman and Tsigas [11],
+than our quick sort adaptation by Cederman and Tsigas,
 which we therefore use in our final implementation. We
 also extended it to support key-value pairs inputs. Quick sort
 does not cause any serialization of work, except for pivot
@@ -801,18 +803,18 @@ first one by cyclically shifting. Bitonic sequence consists
 of two monotonic sequences. The monotonic sequence is
 increase or decrease from left to right.\\
 
-For all k < n; If a k < a k+1 ; a 1 , a 2 , a 3 ....a n is a monotonic
+For all k < n; If a\textsubscript{k} < a\textsubscript{k+1} ; a\textsubscript{1}, a\textsubscript{2}, a\textsubscript{3}...a\textsubscript{n} is a monotonic
 sequence. Bitonic sequence monotonically increases
-(decreases) [8], reaches the maximum (minimum), then
+(decreases), reaches the maximum (minimum), then
 monotonically decreases (increases). For example, suppose 3
 5 8 9 7 4 2 1 bitonic sequence; it increases from 3 to 9 then it
-decreases. If x 0 , x 1 , x 2 ...x n is a bitonic sequence, an index i is
+decreases. If x\textsubscript{0}, x\textsubscript{1}, x\textsubscript{2}...x\textsubscript{n} is a bitonic sequence, an index i is
 between 0<i<n-1. When we apply this rule to sequence, it
-increases from x 0 to x i , then decreases from x i to x n . Bitonic
+increases from x\textsubscript{0} to x\textsubscript{i} , then decreases from x\textsubscript{i} to x\textsubscript{n} . Bitonic
 split is applied to sequence to get a bitonic sequence. The
 sequence length must be 2n. Then, n steps are needed to sort
 the entire array. Each indices are compared using (i, n/2-1). If
-a i >a i +n/2, the two elements are exchanged, 1<i<n [9]. When
+a\textsubscript{i} > a\textsubscript{i+n/2}, the two elements are exchanged, 1<i<n . When
 this swapping operation is applied to indices between i=(0,
 n/2-1), two bitonic sequences are produced. The first split
 elements are smaller than second split elements. Then, in the second step the same rule will be applied to
@@ -830,7 +832,7 @@ are (k(k+1))/2. For example the sorting of an array that consist
 16 elements (2 4 ) would take 10 steps. Firstly, pair wise exchange is made to
 make it easier to find the bitonic sequence. Then, it is divided
 two sub-arrays. Each element in sub-array is compared using
-( i , n /2-1) indices. If a i >a i+n/2 , swap operation is applied. After
+( i , n /2-1) indices. If a\textsubscript{i} > a\textsubscript{i+n/2} , swap operation is applied. After
 all elements are compared, bitonic sequence is implemented.
 The first split of the array is in increasing order; the second
 split is in decreasing order. It is reached to bitonic sequence in
@@ -842,7 +844,7 @@ bitonic sorted array is implemented.\\
 In parallel implementation of this sorting algorithm, each
 split and compare operation is applied on different cores. Each
 core works on different part of an array. These splitted arrays
-results don’t affect the other one’s result. Therefore, each
+results don't affect the other one's result. Therefore, each
 CUDA core works on array separately.
 
 \section{Project Timeline }
