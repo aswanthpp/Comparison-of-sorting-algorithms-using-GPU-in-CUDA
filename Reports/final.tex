@@ -63,7 +63,7 @@
 % should be used if it is desired that the figures are to be displayed in
 % draft mode.
 %
-\documentclass[journal]{IEEEtran}
+\documentclass[conference]{IEEEtran}
 \usepackage{blindtext}
 \usepackage{graphicx}
 
@@ -382,7 +382,7 @@
 %
 % paper title
 % can use linebreaks \\ within to get better formatting as desired
-\title{Implementation of GPU based Sorting Algorithms}
+\title{Implementation of GPU based\\ Sorting Algorithms}
 %
 %
 % author names and IEEE memberships
@@ -393,17 +393,14 @@
 % a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
 % was not built to handle multiple paragraphs
 %
+\author{\IEEEauthorblockN{Arvind Ramachandran \IEEEauthorrefmark{1}, Aswanth P. P. \IEEEauthorrefmark{2}}
+%Reg NO: - \IEEEauthorrefmark{1}15CO111, \IEEEauthorrefmark{2}15CO112\\
+\IEEEauthorblockA{Department of Computer Engineering\\
+National Institute of Technology Karnataka Surathkal\\
+Email: \IEEEauthorrefmark{1}arvind0705.ar@gmail.com, \IEEEauthorrefmark{2}ppaswanth3@gmail.com}}
 
-\author{\IEEEauthorblockN{Arvind Ramachandran(15CO111)
-and
-Aswanth PP(15CO112)}
-\\Department of Computer Engineering,
-NITK Surathkal\\
-
-Email: arvind0705.ar@gmail.com,
-ppaswanth3@gmail.com}}
 \maketitle
-}
+
 
 % note the % following the last \IEEEmembership and also \thanks - 
 % these prevent an unwanted space from occurring between the last author name
@@ -458,8 +455,7 @@ ppaswanth3@gmail.com}}
 
 
 \begin{abstract}
-%\boldmath
-Parallel sorting algorithms are widely studied nowadays. The difficulty in improving sorting runtime when run serially has lead to a lot of research in this area. Efficient sorting is required for algorithms like binary search ,merging two lists etc. The main aim is to effectively reduce the running time of these algorithms specially after the introduction of parallel processors like the GPU and CUDA, OpenCL, etc. This paper presents a survey of some well known sorting algorithms that are GPU based.
+Parallel sorting algorithms are widely studied nowadays. The difficulty in improving sorting run-time when run serially has lead to a lot of research in this area. Efficient sorting is required for algorithms like binary search ,merging two lists etc. The main aim is to effectively reduce the running time of these algorithms specially after the introduction of parallel processors like the GPU and CUDA, OpenCL, etc. This paper presents a survey of some well known sorting algorithms that are GPU based.
 \end{abstract}
 % IEEEtran.cls defaults to using nonbold math in the Abstract.
 % This preserves the distinction between vectors and scalars. However,
@@ -492,7 +488,7 @@ Merge Sort, Quick Sort, Radix Sort, Sample Sort, Bitonic Sort, Fix Sort, GPU, CU
 
 \section{Introduction}
 Sequential algorithms were implemented on a central processing unit using C++, whereas parallel algorithms were implemented on a graphics processing unit using CUDA platform. Sorting on a Central Processing Unit(CPU) is slower than sorting on a GPU.\\ 
-In this Project, we analyse five parallel sorting algorithms for a given range of inputs - Merge Sort, Quick Sort, Radix Sort, Sample Sort and Bitonic Sort. Their methods are described in brief and performance compared.
+In this Project, we analyze five parallel sorting algorithms for a given range of inputs - Merge Sort, Quick Sort, Radix Sort, Sample Sort and Bitonic Sort. Their methods are described in brief and performance compared.
 
 \section{Objective}
 We are comparing sorting time for each parallel sorting algorithm for a dataset of array size 50000 to 500000 with an interval of 5000 .The performance of each algorithm will be compared in terms of running time and corresponding graphs will be plotted for each set of inputs. 
@@ -512,7 +508,7 @@ Radix sort is one of the fastest sorting algorithms for short keys and is the on
 Sample sort is or has been the fastest sorting algorithm if the inter-process communication is high . It selects a subset of the input. This subset is referred to as splitters. Splitters are sorted by some other procedure. The input sequence is divided into buckets using these splitters. Each bucket is sorted in parallel and the result is the concatenation of these buckets. However, performance of the Sample sort degrades if the number of elements per processor is low.
 
 \subsection{Bitonic Sort}
-Bitonic Sort is one of the most studied algorithms on GPU. It falls into the group of sorting networks , which means, that the sequence and direction of comparisons is determined in advance and is independent of input sequence. Bitonic sort is based on a bitonic sequence. Parallel implementation of bitonic sort is very efficient when sorting short sequences, but it becomes slower when sorting very long sequences, because shared memory size is limited and long bionic sequences cannot be saved into it. In order to merge long bionic sequences, global memory has to be used instead of shared memory. Furthermore, global memory has to be accessed for every step of bionic merge. In order to incr ease the speed of sort, multiple steps of bitonic merge have to be executed with a single kernel invocation. This can be achieved with multistep bitonic sort.\\
+Bitonic Sort is one of the most studied algorithms on GPU. It falls into the group of sorting networks , which means, that the sequence and direction of comparisons is determined in advance and is independent of input sequence. Bitonic sort is based on a bitonic sequence. Parallel implementation of bitonic sort is very efficient when sorting short sequences, but it becomes slower when sorting very long sequences, because shared memory size is limited and long bionic sequences cannot be saved into it. In order to merge long bionic sequences, global memory has to be used instead of shared memory. Furthermore, global memory has to be accessed for every step of bionic merge. In order to increase the speed of sort, multiple steps of bitonic merge have to be executed with a single kernel invocation. This can be achieved with multistep bitonic sort.\\
 % needed in second column of first page if using \IEEEpubid
 %\IEEEpubidadjcol
 
@@ -609,13 +605,12 @@ Implementation and Analysis of Quick Sort, Radix Sort and Sample Sort.
 Merge sort and Radix sort algorithms were successfully implemented on CUDA , running times calculated and results verified using functions from header "wb.h".
 
 \subsection{Merge Sort}
-Conceptually, a merge sort works as follows:
-   \\1) Divide the unsorted list into n sublists, each containing 1 element (a list of 1 element is considered sorted).\\
+Conceptually, a merge sort works as follows:   \\1) Divide the unsorted list into n sublists, each containing 1 element (a list of 1 element is considered sorted).\\
    2) Repeatedly merge sublists to produce new sorted sublists until there is only 1 sublist remaining. This will be the sorted list.\\
    
    Since this follows a divide and conquer approach, each sort and merge operation is performed individually (recursively as per the algorithm)
- which takes up time. There arises a need to parallelise this algorithm in order to improve its efficiency. Merge sort parallelizes well due to use of the divide-and-conquer method. It is very difficult to find a merging algorithm that can achieve
-a high level of parallelism and maximize utilization on theGPU due to the multi-level parallelism requirements of the
+ which takes up time. There arises a need to parallelize this algorithm in order to improve its efficiency. Merge sort parallelizes well due to use of the divide-and-conquer method. It is very difficult to find a merging algorithm that can achieve
+a high level of parallelism and maximize utilization on the GPU due to the multi-level parallelism requirements of the
 architecture. In a sense, parallelizing merging algorithms is
 even more difficult due to the small amount of work done
 per each element in the input and output. The merge phase
@@ -627,7 +622,7 @@ SPs on each SM once the partitioning stage is completed. For full utilization of
 must be broken up into finer granularity to enable additional
 parallelism while still avoiding synchronization when possible. \\
 
-We have adopted the following strategy to parallelise merge sort :\\
+We have adopted the following strategy to parallelize merge sort :\\
 1) Start with two lists: Your input array, and a temp array that’s the same size.\\
 2) Define a width, starting at 2. During each step, width gets multiplied by 2.\\
 3) While width is less than 2N, sort each width-sized chunk of the list into the temp list. Then switch the pointers of the two lists. We thereby avoid allocating small arrays or copying temp back to input.\\
@@ -650,17 +645,14 @@ with a smaller digit value and, as it needs to be stable,
 the keys with the same digit value preceding the key in
 the input sequence.
 Sorting relies on the reinterpretation of a
-k
--bit key
+k-bit key
 as a sequence of
-d
--bit digits, which are considered one at
+d-bit digits, which are considered one at
 a time. The basic idea is, that splitting the
 k
 bits of the
 keys into smaller
-d
--bit digits results in a small enough radix
+d-bit digits results in a small enough radix
 r
 = 2
 d
@@ -671,18 +663,16 @@ distinct buckets. As sorting on each digit can be
 done with an effort that is linear in the number of keys
 n
 ,
-the whole sorting can be achieved with a total complex-
-ity of
+the whole sorting can be achieved with a total complexity of
 O
 (
-d
-k/d
-e×
-n
+dk/de*n
 ). Iterating over the keys’ digits can be
 performed in two fundamentally different ways. Either by
 proceeding from the most-significant to the least-significant
-digit (MSD radix sort), or vice versa (LSD radix sort).
+digit (MSD radix sort), or vice versa (LSD radix sort). Radix sort is an out-of-place sort and we need to ping-pong
+values between the input and output buffers provided. We
+need to do a copy at the end.\\
 
 The basic idea is to construct a histogram on each pass
 of how many of each ”digit” there are. Then we scan this
@@ -695,11 +685,9 @@ moving 1s into the correct position.
 \\3) Determine relative offset of each digit
 For example [0 0 1 1 0 0 1] = [0 1 0 1 2 3 2]
 \\4) Combine the results of steps 2 3 to determine the final
-output location for each element and move it there LSB
-Radix sort is an out-of-place sort and we need to ping-pong
-values between the input and output buffers provided. We
-need to do a copy at the end.
-\\Implementation of Radix on CUDA algorithm:
+output location for each element and move it there LSB.\\
+
+Implementation of Radix on CUDA algorithm:
 \\1) Get the predicate of your list (bit in common, starting
 from the LSB)
 \\2) Scan the predicate, and record the sum of the predicate in
@@ -708,13 +696,14 @@ Implement Scan on the GPU
 Note that your predicate will be of arbitrary size
 \\3) Flip bits of the predicate, and scan that
 \\4) Move the values in your array with the following rule:
-For the ith element in the array:
-if the ith predicate is TRUE, move the ith value to the index
-in the ith element of the predicate scan
-else, move the ith value to the index in the ith element of the
+For the i\textsuperscript{th} element in the array:
+if the i\textsuperscript{th} predicate is TRUE, move the i\textsuperscript{th} value to the index
+in the i\textsuperscript{th} element of the predicate scan
+else, move the i\textsuperscript{th} value to the index in the i\textsuperscript{th} element of the
 !Predicate scan plus the sum of the Predicate
-\\5) Move to the next significant bit (NSB)
-\\Verification of the radix sort algorithm is done by using "wb.h" library where 
+\\5) Move to the next significant bit (NSB)\\
+
+Verification of the radix sort algorithm is done by using "wb.h" library where 
 compared the result with existing sorted elements file.which gave the following result for the execution of 50000 elements within range of 5000
 \\
 \\ Generic 0.030998016 Importing data to host
@@ -732,9 +721,9 @@ single segment. A pivot element is chosen in each segment (the first element of 
 segment). The pivot element is distributed across the segments. The input element is
 compared to the pivot.Greater-than or greater-than-or-equal are compared accordingly
 in alternating passes of the algorithm. A segmented vector containing true and false
-is produced by the comparison operation. This segmented vector is used to split-andsegment
-the input. As a result, smaller elements are placed at the head of the vector
+is produced by the comparison operation. This segmented vector is used to split and segment the input. As a result, smaller elements are placed at the head of the vector
 and larger elements are placed at the end of the vector. \\
+
 A sequence to be partitioned is divided logically into sections. Each section is
 processed by a thread block. Each thread in the thread block keeps track of the number
 of elements it has seen larger and smaller than the pivot. Each thread stores this
@@ -746,24 +735,28 @@ is no need for inter-thread block synchronization. When the sub-sequences become
 small enough to be sorted entirely in the fast local memory, the authors suggest using
 a different sorting algorithm which performs well when the size of the list approaches
 the number of threads.\\
+
 One kernel is assigned to the group having elements smaller than the pivot
 and the other is assigned to the group having elements larger than the pivot. The kernel
 at the top knows the index and the size of the two groups; it will have the information
-on whether to launch a kernel and howmany threads to use. The parent kernel is able to
+on whether to launch a kernel and how many threads to use. The parent kernel is able to
 launch its child kernels immediately after partitioning the list. The program progresses
 in an asynchronous manner. The kernel launches its two children in a separate stream.
 CUDA streams are executed simultaneously, which means the two sub-sorts will run
 in parallel.\\
-Input Size : 50000\\
-Execution Time : 0. 51\\
-Input/Execution Time :98039\\
+
+Input Size : 50000 
+
+Execution Time : 0. 51
+
+Input Size/Execution Time : 98039\\
 
 \subsection{Sample Sort}
 Since the algorithm spends a significant
 amount of time on sorting buckets (for example approximately
 55 percentage for sorting 16 million randomly distributed
 32-bit integers) one should not underestimate influence of
-this step on the overall runtime of the algorithm. We delay
+this step on the overall run-time of the algorithm. We delay
 sorting of buckets until the whole input is partitioned into
 buckets of size at most M. Since the number of buckets
 grows with the input size, it is larger than the number of
@@ -771,25 +764,87 @@ processors in most of the cases. Therefore, we can use a
 single thread block per bucket without sacrificing exploitable
 parallelism. To improve load-balancing we schedule buckets
 for sorting ordered by size.\\
+
 In order to sort buckets efficiently we split them into
 chunks that fit into shared memory, which then can be
 sorted without expensive accesses to the global memory.
 Initially we employed a sample sort based algorithm for
 this purpose. But we found that it performed slightly worse
-than our quicksort adaptation by Cederman and Tsigas [11],
+than our quick sort adaptation by Cederman and Tsigas [11],
 which we therefore use in our final implementation. We
-also extended it to support key-value pairs inputs. Quicksort
+also extended it to support key-value pairs inputs. Quick sort
 does not cause any serialization of work, except for pivot
 selection and stack operations. Additionally, its consumption
 of registers and shared memory is modest. \\
+
  By choosing t = 256 threads per block and = 8
 elements per thread, we achieve a compromise between the
 parallelism exposed by the algorithm, the amount of data
 (n·k)/(t·) written in the second phase and memory latency
 in the fourth phase.\\
-Input Size : 50000\\
-Execution Time: 0. 09\\
-Input Size/Exeution Time : 555555 \\
+
+Input Size : 50000
+
+Execution Time : 0. 09
+
+Input Size/Execution Time : 555555
+
+\subsection{Bitonic Sort}
+The bitonic sorting scheme has been extensively used in
+parallel computing (mainly to construct sorting network).
+Bitonic sort with the property that sequence of comparisons is
+data-independent. Therefore it is one of the fastest parallel
+sorting algorithms. There are two steps in bitonic sorting
+algorithm. Firstly, it makes the arbitrary sequence that is
+called bitonic sequence. Secondly, it can be converted to the
+first one by cyclically shifting. Bitonic sequence consists
+of two monotonic sequences. The monotonic sequence is
+increase or decrease from left to right.\\
+
+For all k < n; If a k < a k+1 ; a 1 , a 2 , a 3 ....a n is a monotonic
+sequence. Bitonic sequence monotonically increases
+(decreases) [8], reaches the maximum (minimum), then
+monotonically decreases (increases). For example, suppose 3
+5 8 9 7 4 2 1 bitonic sequence; it increases from 3 to 9 then it
+decreases. If x 0 , x 1 , x 2 ...x n is a bitonic sequence, an index i is
+between 0<i<n-1. When we apply this rule to sequence, it
+increases from x 0 to x i , then decreases from x i to x n . Bitonic
+split is applied to sequence to get a bitonic sequence. The
+sequence length must be 2n. Then, n steps are needed to sort
+the entire array. Each indices are compared using (i, n/2-1). If
+a i >a i +n/2, the two elements are exchanged, 1<i<n [9]. When
+this swapping operation is applied to indices between i=(0,
+n/2-1), two bitonic sequences are produced. The first split
+elements are smaller than second split elements. Then, in the second step the same rule will be applied to
+each subsequence. Each subsequence will produce new
+subsequence. When n step is applied, it produces the
+subsequence of length 1. Finally, all the elements in the
+bitonic sequence will be sorted.\\
+
+Bitonic sort consists of O(n(logn)) 2 comparison operation
+(compare/exchange) in each n/2 step. Total number of steps
+are k=log(n). When this algorithm is parallelized, it would
+take n processor to sort it with O(logn) 2 complexity. All steps
+in bitonic sort are creating a bitonic sequence and the sorting
+are (k(k+1))/2. For example the sorting of an array that consist
+16 elements (2 4 ) would take 10 steps. Firstly, pair wise exchange is made to
+make it easier to find the bitonic sequence. Then, it is divided
+two sub-arrays. Each element in sub-array is compared using
+( i , n /2-1) indices. If a i >a i+n/2 , swap operation is applied. After
+all elements are compared, bitonic sequence is implemented.
+The first split of the array is in increasing order; the second
+split is in decreasing order. It is reached to bitonic sequence in
+3 steps. Next step is the bitonic sorting. These 2 bitonic splits
+are divided again until each split that will have 1 element.
+Compare and swap approach is applied to all splits. Finally,
+bitonic sorted array is implemented.\\
+
+In parallel implementation of this sorting algorithm, each
+split and compare operation is applied on different cores. Each
+core works on different part of an array. These splitted arrays
+results don’t affect the other one’s result. Therefore, each
+CUDA core works on array separately.
+
 \section{Project Timeline }
 This is the proposed timeline which we hope to achieve : 
 27th September 2017 - Discussion of Project Proposal\\
@@ -800,7 +855,7 @@ This is the proposed timeline which we hope to achieve :
 
 \begin{thebibliography}{1}
 
-\bibitem{IEEEhowto:sam}
+\bibitem{IEEEhowto:niels}
 Sam~White, Niels~Verosky and Tia~Newhall, "A CUDA-MPI Hybrid Bitonic Sorting Algorithm for GPU Clusters", in \emph{41st International Conference on Parallel Processing Workshops}, 2012.
 \\
 \bibitem{IEEEhowto:zehra}
@@ -809,10 +864,21 @@ Zehra~Yildiz, Musa~Aydin and Guray~Yilmaz, "Parallelization of bitonic sort and 
 \bibitem{IEEEhowto:bakulev}
 Bakulev~Aleksander~Valerievich, Bakuleva~Marina~Alekseevna, Pyurova~Tatiana~Anatolievna and Skvortsov~Sergei~Vladimirovich, "The Implementation on CUDA Platform Parallel
 Algorithms Sort the Data", in \emph{6th Mediterranean Conference on Embedded Computing}, 2017.
+\\
+\bibitem{IEEEhowto:nikolaj}
+Nikolaj~Leischner, Vitaly~Osipov and Peter~Sanders, "GPU Sample Sort", in \emph{Parallel \& Distributed Processing (IPDPS), IEEE
+International Symposium}, 2010.
+\\
+\bibitem{IEEEhowto:rafael}
+Rafael~Schmid, Edson~Borin, Edson~Caceres and Flavia~Pisani, "An Evaluation of Segmented Sorting Strategies on GPUs", in \emph{14th IEEE International Conference on Smart City}; \emph{IEEE 2nd International Conference on Data Science and Systems}; \emph{18th IEEE International Conference on High Performance Computing anf Communications}, 2016.
+\\
+\bibitem{IEEEhowto:dhirendra}
+Dhirendra~Pratap~Singh, Ishan~Joshi and Jaytrilok~Choudhary, "Survey of GPU Based Sorting Algorithms", 2017.
+\\
+\bibitem{IEEEhowto:pdf}
+http://docs.nvidia.com/cuda/pdf/CUDA\_C\_Programming\_Guide.pdf
 
 \end{thebibliography}
-
-
 
 \end{document}
 
