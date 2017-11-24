@@ -611,12 +611,14 @@ This is the proposed timeline which we hope to achieve :
 
 \section{Work Distribution}
 This is how we plan to split the work and proceed with the Project.
+The work has been divided equally among the team.
 \subsection{Arvind Ramachandran (15CO111)}
-Implementation and Analysis of Merge Sort and Bitonic Sort.
+Implementation and Analysis of Merge Sort and Sample Sort.
 \subsection{Aswanth P P (15CO112)}
-Implementation and Analysis of Quick Sort, Radix Sort and Sample Sort.
+Implementation and Analysis of Quick Sort and Radix Sort.\\
+Bitonic Sort has been done by both of us together. 
 
-\section{Sorting Algorithms on CUDA}
+\section{GPU Sorting Algorithms}
 Merge sort, Radix sort, Quick sort, Sample sort and Bitonic sort algorithms were successfully implemented on CUDA , running times calculated and results verified using functions from header "wb.h".
 
 \subsection{Merge Sort}
@@ -727,18 +729,28 @@ else, move the i\textsuperscript{th} value to the index in the i\textsuperscript
 !Predicate scan plus the sum of the Predicate
 \\5) Move to the next significant bit (NSB)\\
 
-Verification of the radix sort algorithm is done by using "wb.h" library where 
-compared the result with existing sorted elements file.which gave the following result for the execution of 50000 elements within range of 5000
+Verification of the radix sort algorithm is done by using "wb.h" library where the result was compared with existing sorted elements file.which gave the following result for the execution of 50000 elements within range of 5000.
+A sample of the working is as follows :
 \\
-\\ Generic 0.030998016 Importing data to host
+
+
+\\\\ Generic 0.030998016 Importing data to host
+
 \\ GPU     0.000162048 Allocating GPU memory.
+
 \\ GPU     0.000172800 Copying input memory to the GPU.
+
 \\ Compute 0.039742976 Performing CUDA computation
+
 \\ Copy    0.000344832 Copying output memory to the CPU
+
 \\ GPU    0.000151040 Freeing GPU Memory
+
 \\ Solution is correct.
 
 \subsection{Quick Sort}
+In the Quick sort algorithm, a list of elements is taken and partitioned around a specific pivot element. The exact position of the pivot element in the sorted list is found. The lists are recursively partitioned until they become too small to partition. Quick sort is the fastest and most studied algorithm in CPU architecture.\\
+
 The algorithm is suitable for segmented
 scan primitive due to communications between elements (threads) inside a
 single segment. A pivot element is chosen in each segment (the first element of the
@@ -776,6 +788,14 @@ Execution Time : 0. 51
 Input Size/Execution Time : 98039\\
 
 \subsection{Sample Sort}
+Sample sort is or has been the fastest sorting algorithm if the inter-process communication is high. It selects a subset of the input. This subset is referred to as splitters. Splitters are sorted by some other procedure. The input sequence is divided into buckets using these splitters. Each bucket is sorted in parallel and the result is the concatenation of these buckets. However, performance of the Sample sort degrades if the number of elements per processor is low.\\
+
+The idea behind sample sort is simple. A sample of size s is selected from the n-element sequence, and the range of the buckets is determined by sorting the sample and choosing m - 1 elements from the result. These elements (called splitters) divide the sample into m equal-sized buckets. After defining the buckets, the algorithm proceeds in the same way as bucket sort. The performance of sample sort depends on the sample size s and the way it is selected from the n-element sequence.\\
+
+Consider a splitter selection scheme that guarantees that the number of elements ending up in each bucket is roughly the same for all buckets. Let n be the number of elements to be sorted and m be the number of buckets. The scheme works as follows. It divides the n elements into m blocks of size n/m each, and sorts each block by using quicksort. From each sorted block it chooses m - 1 evenly spaced elements. The m(m - 1) elements selected from all the blocks represent the sample used to determine the buckets. This scheme guarantees that the number of elements ending up in each bucket is less than 2n/m.\\
+
+How can we parallelize the splitter selection scheme? Let p be the number of processes. As in bucket sort, set m = p; thus, at the end of the algorithm, each process contains only the elements belonging to a single bucket. Each process is assigned a block of n/p elements, which it sorts sequentially. It then chooses p - 1 evenly spaced elements from the sorted block. Each process sends its p - 1 sample elements to one process - say P0. Process P0 then sequentially sorts the p(p - 1) sample elements and selects the p - 1 splitters. Finally, process P0 broadcasts the p - 1 splitters to all the other processes.\\
+
 Since the algorithm spends a significant
 amount of time on sorting buckets (for example approximately
 55 percentage for sorting 16 million randomly distributed
@@ -879,6 +899,16 @@ results don't affect the other one's result. Therefore, each
 CUDA core works on array separately.
 
 \section{Performance Analysis}
+
+\section{Conclusion}
+This paper presented a survey of GPU based sorting algorithms. We have selected five sorting algorithms for this purpose - Merge sort, Radix sort, Sample sort, Quick sort and Bitonic sort. Working and performances of these algorithms have been calculated and compared. Our analysis showed that all these performed better than their serial counterparts. Due to the highly
+optimal complexity of Radix sort, it is a difficult to outrival algorithm on GPU. In the future, we will try to extend our algorithms
+and try other sorting algorithms to compare these algorithms’s
+performance. Different data ranges and distribution can be
+applied to these algorithms in both academic and industrial
+fields based on the use of GPU. Finally, we will compare the results for
+more GPU compute capabilities and propose an algorithm to
+automatically choose the best one for each input parameters.
 
 \begin{thebibliography}{1}
 
