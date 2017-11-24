@@ -395,11 +395,16 @@
 % a separate \thanks must be used for each paragraph as LaTeX2e's \thanks
 % was not built to handle multiple paragraphs
 %
-\author{\IEEEauthorblockN{Arvind Ramachandran \IEEEauthorrefmark{1}, Aswanth P. P. \IEEEauthorrefmark{2}}
+\author{\IEEEauthorblockN{Arvind Ramachandran}
 %Reg NO: - \IEEEauthorrefmark{1}15CO111, \IEEEauthorrefmark{2}15CO112\\
 \IEEEauthorblockA{Department of Computer Engineering\\
 National Institute of Technology Karnataka Surathkal\\
-Email: \IEEEauthorrefmark{1}arvind0705.ar@gmail.com, \IEEEauthorrefmark{2}ppaswanth3@gmail.com}}
+Email: arvind0705.ar@gmail.com}
+\and 
+\IEEEauthorblockN{Aswanth P. P.}
+\IEEEauthorblockA{Department of Computer Engineering\\
+National Institute of Technology Karnataka Surathkal\\
+Email: ppaswanth3@gmail.com}}
 
 \maketitle
 
@@ -596,6 +601,14 @@ Bitonic Sort is one of the most studied algorithms on GPU. It falls into the gro
 % floats. This can be corrected via the \fnbelowfloat command of the
 % stfloats package.
 
+\section{Project Timeline }
+This is the proposed timeline which we hope to achieve : 
+27th September 2017 - Discussion of Project Proposal\\
+2nd October 2017 - Submission of Proposal\\
+23rd October 2017 - Mid Progress Evaluation\\
+13th November 2017 - Final Demo\\
+24th November 2017 - Report Submission\\
+
 \section{Work Distribution}
 This is how we plan to split the work and proceed with the Project.
 \subsection{Arvind Ramachandran (15CO111)}
@@ -603,8 +616,8 @@ Implementation and Analysis of Merge Sort and Bitonic Sort.
 \subsection{Aswanth P P (15CO112)}
 Implementation and Analysis of Quick Sort, Radix Sort and Sample Sort.
 
-\section{Progress - I}
-Merge sort and Radix sort algorithms were successfully implemented on CUDA , running times calculated and results verified using functions from header "wb.h".
+\section{Sorting Algorithms on CUDA}
+Merge sort, Radix sort, Quick sort, Sample sort and Bitonic sort algorithms were successfully implemented on CUDA , running times calculated and results verified using functions from header "wb.h".
 
 \subsection{Merge Sort}
 Conceptually, a merge sort works as follows:   \\1) Divide the unsorted list into n sublists, each containing 1 element (a list of 1 element is considered sorted).\\
@@ -623,6 +636,11 @@ parallelize the merge stage in a way that still uses all the
 SPs on each SM once the partitioning stage is completed. For full utilization of the SMs in the system, the merge
 must be broken up into finer granularity to enable additional
 parallelism while still avoiding synchronization when possible. \\
+
+\begin{figure}[h]
+\[\includegraphics[scale=0.55]{merge.png}\]
+\caption{An example of the execution of merge sort.}
+\end{figure}
 
 We have adopted the following strategy to parallelize merge sort :\\
 1) Start with two lists: Your input array, and a temp array that’s the same size.\\
@@ -687,7 +705,11 @@ moving 1s into the correct position.
 \\3) Determine relative offset of each digit
 For example [0 0 1 1 0 0 1] = [0 1 0 1 2 3 2]
 \\4) Combine the results of steps 2 3 to determine the final
-output location for each element and move it there LSB.\\
+output location for each element and move it there LSB.
+\begin{figure}[h]
+\[\includegraphics[scale=0.38]{radix.jpg}\]
+\caption{Parallel Radix Sort on the GPU}
+\end{figure}
 
 Implementation of Radix on CUDA algorithm:
 \\1) Get the predicate of your list (bit in common, starting
@@ -779,6 +801,11 @@ does not cause any serialization of work, except for pivot
 selection and stack operations. Additionally, its consumption
 of registers and shared memory is modest. \\
 
+
+\begin{figure}[h]
+\[\includegraphics[scale=0.45]{sample.png}\]
+\caption{An example of the execution of sample sort on an array with 24 elements on three processes.}
+\end{figure}
  By choosing t = 256 threads per block and = 8
 elements per thread, we achieve a compromise between the
 parallelism exposed by the algorithm, the amount of data
@@ -823,6 +850,10 @@ subsequence. When n step is applied, it produces the
 subsequence of length 1. Finally, all the elements in the
 bitonic sequence will be sorted.\\
 
+\begin{figure}[h]
+\includegraphics[scale=0.5]{bitonic_build_2.png}
+\caption{Bitonic Sorting Network}
+\end{figure}
 Bitonic sort consists of O(n(logn)) 2 comparison operation
 (compare/exchange) in each n/2 step. Total number of steps
 are k=log(n). When this algorithm is parallelized, it would
@@ -832,7 +863,7 @@ are (k(k+1))/2. For example the sorting of an array that consist
 16 elements (2 4 ) would take 10 steps. Firstly, pair wise exchange is made to
 make it easier to find the bitonic sequence. Then, it is divided
 two sub-arrays. Each element in sub-array is compared using
-( i , n /2-1) indices. If a\textsubscript{i} > a\textsubscript{i+n/2} , swap operation is applied. After
+(i,n/2-1) indices. If a\textsubscript{i} > a\textsubscript{i+n/2} , swap operation is applied. After
 all elements are compared, bitonic sequence is implemented.
 The first split of the array is in increasing order; the second
 split is in decreasing order. It is reached to bitonic sequence in
@@ -847,13 +878,7 @@ core works on different part of an array. These splitted arrays
 results don't affect the other one's result. Therefore, each
 CUDA core works on array separately.
 
-\section{Project Timeline }
-This is the proposed timeline which we hope to achieve : 
-27th September 2017 - Discussion of Project Proposal\\
-2nd October 2017 - Submission of Proposal\\
-23rd October 2017 - Mid Progress Evaluation\\
-13th November 2017 - Final Demo\\
-24th November 2017 - Report Submission\\
+\section{Performance Analysis}
 
 \begin{thebibliography}{1}
 
