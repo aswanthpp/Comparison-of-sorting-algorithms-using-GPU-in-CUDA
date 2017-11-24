@@ -730,23 +730,22 @@ else, move the i\textsuperscript{th} value to the index in the i\textsuperscript
 \\5) Move to the next significant bit (NSB)\\
 
 Verification of the radix sort algorithm is done by using "wb.h" library where the result was compared with existing sorted elements file.which gave the following result for the execution of 50000 elements within range of 5000.
-A sample of the working is as follows :
-\\
+A sample of the working is as follows :\\
 
 
-\\\\ Generic 0.030998016 Importing data to host
+ Generic 0.030998016 Importing data to host\\
 
-\\ GPU     0.000162048 Allocating GPU memory.
+ GPU     0.000162048 Allocating GPU memory.\\
 
-\\ GPU     0.000172800 Copying input memory to the GPU.
+ GPU     0.000172800 Copying input memory to the GPU.\\
 
-\\ Compute 0.039742976 Performing CUDA computation
+ Compute 0.039742976 Performing CUDA computation\\
 
-\\ Copy    0.000344832 Copying output memory to the CPU
+ Copy    0.000344832 Copying output memory to the CPU\\
 
-\\ GPU    0.000151040 Freeing GPU Memory
+ GPU    0.000151040 Freeing GPU Memory\\
 
-\\ Solution is correct.
+ Solution is correct.\\
 
 \subsection{Quick Sort}
 In the Quick sort algorithm, a list of elements is taken and partitioned around a specific pivot element. The exact position of the pivot element in the sorted list is found. The lists are recursively partitioned until they become too small to partition. Quick sort is the fastest and most studied algorithm in CPU architecture.\\
@@ -899,7 +898,11 @@ results don't affect the other one's result. Therefore, each
 CUDA core works on array separately.
 
 \section{Performance Analysis}
-
+We have compared the running times of these sorting algorithms over an input size ranging from 10000 to 50000. We have plotted a graph of Running time against Input Size as follows:
+\begin{figure}[h]
+\includegraphics[scale=0.4]{NewLineGraph.png}
+\caption{Sorting Time Comparison}
+\end{figure}
 \section{Conclusion}
 This paper presented a survey of GPU based sorting algorithms. We have selected five sorting algorithms for this purpose - Merge sort, Radix sort, Sample sort, Quick sort and Bitonic sort. Working and performances of these algorithms have been calculated and compared. Our analysis showed that all these performed better than their serial counterparts. Due to the highly
 optimal complexity of Radix sort, it is a difficult to outrival algorithm on GPU. In the future, we will try to extend our algorithms
