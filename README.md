@@ -1,4 +1,4 @@
-# GPU_sorting_using_CUDA
+# Comparison-of-sorting-algorithms-using-GPU-in-CUDA
 
 
 
